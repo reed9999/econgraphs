@@ -1,34 +1,7 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+#Eventually read this: http://scipy-cookbook.readthedocs.io/items/Matplotlib_Django.html
+# not attempted yet.
 
-### Note: I have added some stuff in an attempt to get Matplotlib going.
-# In reality I should turn here:
-# http://scipy-cookbook.readthedocs.io/items/Matplotlib_Django.html
-# But for now I'll kludge in a separate file. It never worked here.
-
-
-def index(request):
-    x = fancy_pants_stuff()
-    return x
-
-def fancy_pants_stuff():
-    """
-    fig, ax = plt.subplots()
-    x, y = np.random.rand(2, 20)
-    line = MyLine(x, y, mfc='red', ms=12, label='line label')
-    # line.text.set_text('line label')
-    line.text.set_color('red')
-    line.text.set_fontsize(16)
-
-    ax.add_line(line)
-
-    plt.show()
-    """
-    return HttpResponse ("Fancy pants! Fancy pants! Fancy pants! Fancy pants!")
-
-#### This code is from https://matplotlib.org/examples/api/line_with_text.html
-
-
+#Following from https://matplotlib.org/examples/api/line_with_text.html
 """
 =======================
 Artist within an artist
@@ -78,3 +51,25 @@ class MyLine(lines.Line2D):
         # draw my label at the end of the line with 2 pixel offset
         lines.Line2D.draw(self, renderer)
         self.text.draw(renderer)
+
+
+fig, ax = plt.subplots()
+#x, y = np.random.rand(2, 20)
+x, y = [[0, 1, 2, 3, 4],
+        [2, 3, 6, 13, 18],
+        ]
+x = np.divide(x, 100)
+y = np.divide(y, 100)
+line = MyLine(x, y, mfc='purple', ms=12, label='line label')
+#line.text.set_text('line label')
+line.text.set_color('green')
+line.text.set_fontsize(16)
+
+# https://stackoverflow.com/questions/23137991/matplotlib-get-and-set-axes-position
+pos1 = ax.get_position() # get the original position 
+pos2 = [pos1.x0 + 0.3, pos1.y0 + 0.3,  pos1.width / 2.0, pos1.height / 2.0] 
+ax.set_position(pos2) # set a new position
+#End that experimentation from stackoverflow
+
+ax.add_line(line)
+plt.show()
