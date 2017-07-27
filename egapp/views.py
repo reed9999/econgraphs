@@ -17,18 +17,28 @@ from matplotlib.dates import DateFormatter
 def index(request):
     return simple(request)
 def random_walk_graph():
+
+
+
     fig = Figure()
     ax = fig.add_subplot(111)
     x = []
     y = []
-    now = datetime.datetime.now()
-    delta = datetime.timedelta(days=7)
-    for i in range(10):
-        x.append(now)
-        now += delta
-        y.append(random.randint(500, 600))
-    ax.plot_date(x, y, '-')
-    ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
+    y2 = []
+
+    current_x = 27
+    delta = 3
+    for i in range(-10, 10):
+        x.append(current_x)
+        current_x += delta
+        coeff = random.randint(0, 3)
+        y.append(100 + i^3 + coeff*i^2)
+        y2.append(100 + i^3 + random.randint(0, 3)*i^2)
+    # ax.plot_date(x, y, '-.')
+    # ax.plot_date(x, y2, ':')
+    ax.plot(x, y, '-.')
+    ax.plot(x, y2, ':')
+#    ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
     fig.autofmt_xdate()
     return fig
 def fun_sine_graph():
