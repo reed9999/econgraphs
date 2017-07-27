@@ -26,14 +26,15 @@ plt.plot(X, HALF, color="blue", linewidth=3.0, linestyle="--")
 # Set x limits
 plt.xlim(-4.0,7.0)
 
-# Set x ticks
-plt.xticks(np.linspace(-4,4,9,endpoint=True))
+#plt.xticks(np.linspace(-4,4,9,endpoint=True))
+#plt.yticks(np.linspace(-1,1,5,endpoint=True))
+plt.xticks( [-np.pi, -np.pi/2, 0, np.pi/2, np.pi])
+plt.yticks([-1, 0, +1])
 
 # Set y limits
 plt.ylim(-1.0,7.0)
 
 # Set y ticks
-plt.yticks(np.linspace(-1,1,5,endpoint=True))
 
 # Save figure using 72 dots per inch
 # savefig("../figures/exercice_2.png",dpi=72)
