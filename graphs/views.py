@@ -50,9 +50,10 @@ def fun_sine_graph():
     return fig
 def simple(request):
 
-    # canvas = FigureCanvas(random_walk_graph())
+    old_canvas = FigureCanvas(random_walk_graph())
     canvas = FigureCanvas(fun_sine_graph())
+    #see https://github.com/matplotlib/matplotlib/issues/6023
     response = django.http.HttpResponse(content_type='image/png')
-    canvas.print_png(response)
+    old_canvas.print_png(response)
     return response
 
