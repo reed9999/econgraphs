@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class GraphsConfig(AppConfig):
+class EgAppConfig(AppConfig):
     name = 'egapp'
