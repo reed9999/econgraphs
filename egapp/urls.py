@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'other', views.other, name='other'),
     url(r'^$', views.index, name='index'),
 
-q    # These are pointless names from the Django tutorial. Delete soon
+    # These are pointless names from the Django tutorial. Delete soon
     # ex: /polls/5/
     url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
     # ex: /polls/5/results/

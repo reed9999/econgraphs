@@ -51,6 +51,19 @@ def random_walk_graph():
     fig.autofmt_xdate()
     return fig
 
+def display(list_of_functions):
+    import numpy as np
+    fig = Figure(figsize=(8,6), dpi=80)
+    ax = fig.add_subplot(111)
+    X = np.linspace(-np.pi, np.pi, 256, endpoint=True)
+    Ys = []
+    for function in list_of_functions:
+        Y = (eval(function))
+        ax.plot(X, Y, color="orange", linewidth=4.5, linestyle=":")
+        Ys.append(Y)
+
+    return fig
+
 def hybrid():
     import numpy as np
 
