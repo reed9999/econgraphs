@@ -2,6 +2,12 @@
 import os
 import sys
 
+def PHILIP_execute(the_argv):
+    if the_argv[0] != "phooey":
+        print(the_argv)
+        the_argv[0] = "sqlmigrate"
+    execute_from_command_line(the_argv)
+
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "econgraphs.settings")
     try:
@@ -20,3 +26,4 @@ if __name__ == "__main__":
             )
         raise
     execute_from_command_line(sys.argv)
+    # PHILIP_execute(sys.argv)
