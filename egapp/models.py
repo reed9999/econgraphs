@@ -5,7 +5,8 @@ from django.db import models
 class GraphableFunction (models.Model):
     name = models.CharField(max_length=200)
     function_spec = models.CharField(max_length=200)
-
+    def __str__(self):
+        return self.function_spec
 class Source (models.Model):
     graphable_functions = models.ManyToManyField(GraphableFunction)
     authors = models.CharField(max_length=200)

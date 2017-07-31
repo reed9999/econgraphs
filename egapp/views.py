@@ -11,6 +11,9 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.dates import DateFormatter
 
+from .models import GraphableFunction, Source
+from django.http import Http404
+from django.shortcuts import render
 
 
 
@@ -25,33 +28,8 @@ def simple(request):
     canvas.print_png(response)
     return response
 
-def other(request):
-    old_canvas = FigureCanvas(random_walk_graph())
-    response = django.http.HttpResponse(content_type='image/png')
-    canvas.print_png(response)
-    return response
 
-def random_walk_graph():
-    fig = Figure()
-    ax = fig.add_subplot(111)
-    x = []
-    y = []
-    y2 = []
-
-    current_x = 27
-    delta = 3
-    for i in range(-10, 10):
-        x.append(current_x)
-        current_x += delta
-        coeff = random.randint(0, 3)
-        y.append(100 + i^3 + coeff*i^2)
-        y2.append(100 + i^3 + random.randint(0, 3)*i^2)
-    ax.plot(x, y, '-.')
-    ax.plot(x, y2, ':')
-    fig.autofmt_xdate()
-    return fig
-
-def display(list_of_functions):
+def display_figure(list_of_functions):
     import numpy as np
     fig = Figure(figsize=(8,6), dpi=80)
     ax = fig.add_subplot(111)
@@ -84,6 +62,55 @@ def hybrid():
     fig.autofmt_xdate()
     return fig
 
+
+# These are pointless names from the Django tutorial. Delete soon
+def detail(request, function_id):
+    try:
+        function = GraphableFunction.objects.get(pk=function_id)
+    except GraphableFunction.DoesNotExist:
+        raise Http404("This particular GraphableFunction with this ID does not exist") #% function_id)
+#    return render(request, 'polls/detail.html', {'function': function})
+    print ("It's time for the function %s" % function)
+    canvas = FigureCanvas(display_figure([function.function_spec]))
+    response = django.http.HttpResponse(content_type='image/png')
+    canvas.print_png(response)
+    return response
+
+    #return HttpResponse("Soon I will graph the function" % function)
+
+
+
+def results(request, question_id):
+    response = "You're looking at the results of question %s."
+    return HttpResponse(response % question_id)
+
+def vote(request, question_id):
+    return HttpResponse("You're voting on question %s." % question_id)
+
+
+
+#No longer in use. Here for reference only
+
+def random_walk_graph():
+    fig = Figure()
+    ax = fig.add_subplot(111)
+    x = []
+    y = []
+    y2 = []
+
+    current_x = 27
+    delta = 3
+    for i in range(-10, 10):
+        x.append(current_x)
+        current_x += delta
+        coeff = random.randint(0, 3)
+        y.append(100 + i^3 + coeff*i^2)
+        y2.append(100 + i^3 + random.randint(0, 3)*i^2)
+    ax.plot(x, y, '-.')
+    ax.plot(x, y2, ':')
+    fig.autofmt_xdate()
+    return fig
+
 def fun_sine_graph():
     import numpy as np
 
@@ -100,14 +127,3 @@ def fun_sine_graph():
     ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
     fig.autofmt_xdate()
     return fig
-
-# These are pointless names from the Django tutorial. Delete soon
-def detail(request, question_id):
-    return HttpResponse("You're looking at question %s." % question_id)
-
-def results(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
-
-def vote(request, question_id):
-    return HttpResponse("You're voting on question %s." % question_id)
