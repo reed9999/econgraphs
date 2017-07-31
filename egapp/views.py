@@ -9,13 +9,16 @@ import datetime
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-from matplotlib.dates import DateFormatter
 
 from .models import GraphableFunction, Source
 from django.http import Http404
 from django.shortcuts import render
 
 
+class FigureHelper:
+    """NYI -- refactor to here, or wherever the correct Django place for helpers is."""
+    def __init__(self, figure=None):
+        raise     """NYI"""
 
 def index(request):
     return simple(request)
