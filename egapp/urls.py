@@ -25,6 +25,8 @@ urlpatterns = [
     # These are pointless names from the Django tutorial. Delete soon
     # ex: /polls/5/
     url(r'^(?P<function_id>[0-9]+)/$', views.detail, name='detail'),
+    url(r'^(?P<function_id>[0-9]+)/(?P<color>[a-z]+)$', views.detail_color, name='detail_color'),
+    url(r'^arbitrary/(?P<function>.+)$', views.arbitrary, name='arbitrary'),
     # ex: /polls/5/results/
     url(r'^(?P<function_id>[0-9]+)/results/$', views.results, name='results'),
     # ex: /polls/5/vote/

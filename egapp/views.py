@@ -69,15 +69,28 @@ def detail(request, function_id):
         function = GraphableFunction.objects.get(pk=function_id)
     except GraphableFunction.DoesNotExist:
         raise Http404("This particular GraphableFunction with this ID does not exist") #% function_id)
-#    return render(request, 'polls/detail.html', {'function': function})
-    print ("It's time for the function %s" % function)
     canvas = FigureCanvas(display_figure([function.function_spec]))
     response = django.http.HttpResponse(content_type='image/png')
     canvas.print_png(response)
     return response
 
-    #return HttpResponse("Soon I will graph the function" % function)
+def detail_color(request, function_id, color):
+    try:
+        function = GraphableFunction.objects.get(pk=function_id)
+    except GraphableFunction.DoesNotExist:
+        raise Http404("This particular GraphableFunction with this ID does not exist") #% function_id)
+#    return render(request, 'polls/detail.html', {'function': function})
+    print ("It's time for the function %s" % function)
+    canvas = FigureCanvas(display_figure([function.function_spec]))
+    response = django.http.HttpResponse(content_type='image/png')
+    canvas.print_png(response)
+    print ("Soon I will attempt with color %s" % color)
+    return response
 
+
+def arbitrary(request, function):
+    response = "Soon perhaps I will be able to graph the function %s."
+    return HttpResponse(response % arbitrary)
 
 
 def results(request, question_id):
