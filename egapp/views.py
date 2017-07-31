@@ -29,7 +29,7 @@ def simple(request):
     return response
 
 
-def display_figure(list_of_functions):
+def display_figure(list_of_functions, color="purple"):
     import numpy as np
     fig = Figure(figsize=(8,6), dpi=80)
     ax = fig.add_subplot(111)
@@ -37,7 +37,7 @@ def display_figure(list_of_functions):
     Ys = []
     for function in list_of_functions:
         Y = (eval(function))
-        ax.plot(X, Y, color="orange", linewidth=4.5, linestyle=":")
+        ax.plot(X, Y, color=color, linewidth=4.5, linestyle=":")
         Ys.append(Y)
 
     return fig
@@ -63,13 +63,12 @@ def hybrid():
     return fig
 
 
-# These are pointless names from the Django tutorial. Delete soon
-def detail(request, function_id):
+def graph_by_id(request, function_id, color="purple"):
     try:
         function = GraphableFunction.objects.get(pk=function_id)
     except GraphableFunction.DoesNotExist:
         raise Http404("This particular GraphableFunction with this ID does not exist") #% function_id)
-    canvas = FigureCanvas(display_figure([function.function_spec]))
+    canvas = FigureCanvas(display_figure([function.function_spec], color))
     response = django.http.HttpResponse(content_type='image/png')
     canvas.print_png(response)
     return response
@@ -88,9 +87,13 @@ def detail_color(request, function_id, color):
     return response
 
 
-def arbitrary(request, function):
-    response = "Soon perhaps I will be able to graph the function %s."
-    return HttpResponse(response % arbitrary)
+def graph_arbitrary(request, function_spec  ):
+    import logging
+    logging.warning("TODO: DRY violation in graph_arbitrary")
+    canvas = FigureCanvas(display_figure([function_spec]))
+    response = django.http.HttpResponse(content_type='image/png')
+    canvas.print_png(response)
+    return response
 
 
 def results(request, question_id):
@@ -99,44 +102,3 @@ def results(request, question_id):
 
 def vote(request, question_id):
     return HttpResponse("You're voting on question %s." % question_id)
-
-
-
-#No longer in use. Here for reference only
-
-def random_walk_graph():
-    fig = Figure()
-    ax = fig.add_subplot(111)
-    x = []
-    y = []
-    y2 = []
-
-    current_x = 27
-    delta = 3
-    for i in range(-10, 10):
-        x.append(current_x)
-        current_x += delta
-        coeff = random.randint(0, 3)
-        y.append(100 + i^3 + coeff*i^2)
-        y2.append(100 + i^3 + random.randint(0, 3)*i^2)
-    ax.plot(x, y, '-.')
-    ax.plot(x, y2, ':')
-    fig.autofmt_xdate()
-    return fig
-
-def fun_sine_graph():
-    import numpy as np
-
-    fig = Figure(figsize=(8,6), dpi=80)
-    ax = fig.add_subplot(111)
-    X = np.linspace(-np.pi, np.pi, 256, endpoint=True)
-    C, S = np.cos(X), np.sin(X)
-    HALF = np.divide(X, 2)
-
-    ax.plot(X, C, color="orange", linewidth=4.5, linestyle=":")
-    ax.plot(X, S, color="red", linewidth=7.0, linestyle="-.")
-    ax.plot(X, HALF, color="blue", linewidth=3.0, linestyle="--")
-
-    ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
-    fig.autofmt_xdate()
-    return fig
