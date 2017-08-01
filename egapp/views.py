@@ -18,18 +18,11 @@ from django.shortcuts import render
 class FigureHelper:
     """NYI -- refactor to here, or wherever the correct Django place for helpers is."""
     def __init__(self, figure=None):
-        raise     """NYI"""
+        self.figure = figure if figure else Figure(figsize=(8,6), dpi=80)
+
 
 def index(request):
     return simple(request)
-
-#at one point this was an issue, since resolved:
-# https://github.com/matplotlib/matplotlib/issues/6023
-def simple(request):
-    canvas = FigureCanvas(hybrid())
-    response = django.http.HttpResponse(content_type='image/png')
-    canvas.print_png(response)
-    return response
 
 
 def display_figure(list_of_functions, color="purple"):
@@ -71,29 +64,17 @@ def graph_by_id(request, function_id, color="purple"):
         function = GraphableFunction.objects.get(pk=function_id)
     except GraphableFunction.DoesNotExist:
         raise Http404("This particular GraphableFunction with this ID does not exist") #% function_id)
-    canvas = FigureCanvas(display_figure([function.function_spec], color))
-    response = django.http.HttpResponse(content_type='image/png')
-    canvas.print_png(response)
-    return response
-
-def detail_color(request, function_id, color):
-    try:
-        function = GraphableFunction.objects.get(pk=function_id)
-    except GraphableFunction.DoesNotExist:
-        raise Http404("This particular GraphableFunction with this ID does not exist") #% function_id)
-#    return render(request, 'polls/detail.html', {'function': function})
-    print ("It's time for the function %s" % function)
-    canvas = FigureCanvas(display_figure([function.function_spec]))
-    response = django.http.HttpResponse(content_type='image/png')
-    canvas.print_png(response)
-    print ("Soon I will attempt with color %s" % color)
-    return response
+    return figure_to_response(display_figure([function.function_spec], color))
 
 
 def graph_arbitrary(request, function_spec  ):
     import logging
     logging.warning("TODO: DRY violation in graph_arbitrary")
-    canvas = FigureCanvas(display_figure([function_spec]))
+    return figure_to_response(display_figure([function_spec]))
+
+#First refactoring step
+def figure_to_response(figure):
+    canvas = FigureCanvas(figure)
     response = django.http.HttpResponse(content_type='image/png')
     canvas.print_png(response)
     return response
