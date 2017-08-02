@@ -22,7 +22,7 @@ class FigureHelper:
 
 
 def index(request):
-    return simple(request)
+    return figure_to_response(hybrid())
 
 
 def display_figure(list_of_functions, color="purple"):
