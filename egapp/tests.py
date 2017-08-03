@@ -9,7 +9,7 @@ from selenium import webdriver
 class TestEgApp(unittest.TestCase):
 
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Chrome()
 
     def test_basic_urls(self):
         self.driver.get("http://localhost:8000/egapp/")

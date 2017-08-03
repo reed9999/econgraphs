@@ -27,7 +27,7 @@ def index(request):
 
 def display_figure(list_of_functions, color="purple"):
     import numpy as np
-    fig = Figure(figsize=(8,6), dpi=80)
+    fig = Figure(figsize=(20,9), dpi=80)
     ax = fig.add_subplot(111)
     X = np.linspace(-np.pi, np.pi, 256, endpoint=True)
     Ys = []
@@ -69,7 +69,6 @@ def graph_by_id(request, function_id, color="purple"):
 
 def graph_arbitrary(request, function_spec  ):
     import logging
-    logging.warning("TODO: DRY violation in graph_arbitrary")
     return figure_to_response(display_figure([function_spec]))
 
 #First refactoring step
