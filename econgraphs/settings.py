@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # practice I will remove it. But note that AFAIK this has never been deployed
 # on a production server!
 
-#SECRET_KEY = DO_NOT_USE ### '***REMOVED***'
+#SECRET_KEY = DO_NOT_USE 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
