@@ -1,4 +1,4 @@
 # econgraphs
-Django and Matplotlib demo. I read econ papers and get confused by all the algebra and calculus. So I seek to plot them.
-
-This is a project that I never built out very far. However it's a helpful example of how to integrate Django and Matplotlib.
+This demo is an example of integrating Django and Matplotlib to visualize data. 
+The motivation is to visualize formulas from economics papers. 
+The functionality is fairly basic but illustrates the integration of these two libraries.
